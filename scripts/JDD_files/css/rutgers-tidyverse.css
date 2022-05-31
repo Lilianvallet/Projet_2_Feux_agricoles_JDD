@@ -114,7 +114,7 @@ thead, tfoot, tr:nth-child(even) { background: none; }
 
 /* Add image and change bg color */
 .title-slide {
-  background-image: url("../../scripts/JDD_files/figure-html/Logo.png");
+  background-image: url("../../JDD_files/figure-html/Logo.png");
   background-position: 50% 5%;
   background-size: 800px;
   background-color: #fff;
