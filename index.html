@@ -165,18 +165,59 @@ class: center
 **Sattelite sensor**
 &lt;video data-autoplay width="1000" controls autoplay loop muted&gt;
   &lt;source src="scripts/JDD_files/figure-html/VIIRS.mp4" type="video/mp4"&gt;
-&lt;/video&gt;]]
+&lt;/video&gt;
+- 1 point = several fires
+
+
+- 1 fire = several points
+
+
+- Difference of accuracy between sattelites
+]]
 
 .pull-right[
 **Firefighter alert**
 .pull-left[
 ![](output_data/Merged_Fire_Database_origin.png)
+- Any kind of fire
+
+- Poor estimation of Burned area
 ]
 
 .pull-right[
+***
 **Data mining !**
+***
+
 ]]
 
+---
+# Global dataset
+**12453** observations from 2000 to 2021, with :
+
+- 8408 agricultural fires
+  - 6008 field fires
+  - 2400 building fires
+- 1577 pastoral fires
+
+
+5 types of variables :
+
+- Date (day/month/year)
+- Municipality of event (Name and INSEE code)
+- Location of municipality (Latitude and Longitude)
+- Vegetation type
+- Data source
+
+Additional variables for agricultural fires :
+- Burned area for field fires
+- Storage place with estimated Dry mass burned for building fires
+
+--- 
+# Spatial overview
+![:scale 65%](output_data\BA_facet.png)
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
