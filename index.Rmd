@@ -62,21 +62,21 @@ class: center
 
 ---
 # Land cover data
-.left-column[<video data-autoplay muted width="650" controls autoplay muted >
+.left-column[<video data-autoplay loop muted width="650" controls autoplay loop muted >
   <source src="scripts/JDD_files/figure-html/LandCover_sattelite.mp4" type="video/mp4">
 </video>]
-.right-column[<video data-autoplay width="1000" controls autoplay muted>
+.right-column[<video data-autoplay width="1000" controls autoplay loop muted>
   <source src="scripts/JDD_files/figure-html/FarEarth_compressed.mp4" type="video/mp4">
 </video>]
 
 ---
 # Sattelite sensor
 
-.left-column[<video data-autoplay width="650" controls autoplay muted>
+.left-column[<video data-autoplay width="650" controls autoplay loop muted>
   <source src="scripts/JDD_files/figure-html/MODIS_sattelite_compressed.mp4" type="video/mp4">
 </video>]
 
-.right-column[<video data-autoplay width="650" controls autoplay muted>
+.right-column[<video data-autoplay width="650" controls autoplay loop muted>
   <source src="scripts/JDD_files/figure-html/VIIRS.mp4" type="video/mp4">
 </video>]
 ---
@@ -87,7 +87,7 @@ class: center
 #What about agricultural fires ?
 
 **Land cover data** 
-.pull-left[.pull-left[<video data-autoplay width="1000" controls autoplay muted>
+.pull-left[.pull-left[<video data-autoplay width="1000" controls autoplay loop muted>
   <source src="scripts/JDD_files/figure-html/FarEarth_compressed.mp4" type="video/mp4">
 </video>
 - Elapsed time between 2 date : 6, 12 or 24 hours
@@ -103,7 +103,7 @@ class: center
 #What about agricultural fires ?
 
 **Land cover data** 
-.pull-left[.pull-left[<video data-autoplay width="1000" controls autoplay muted>
+.pull-left[.pull-left[<video data-autoplay width="1000" controls autoplay loop muted>
   <source src="scripts/JDD_files/figure-html/FarEarth_compressed.mp4" type="video/mp4">
 </video>
 - Elapsed time between 2 date : 6, 12 or 24 hours
@@ -114,7 +114,7 @@ class: center
 
 - Harvested crop similar to burned area
 ]
-.pull-right[<video data-autoplay width="1000" controls autoplay muted>
+.pull-right[<video data-autoplay width="1000" controls autoplay loop muted>
   <source src="scripts/JDD_files/figure-html/VIIRS.mp4" type="video/mp4">
 </video>]
 ]
@@ -123,7 +123,7 @@ class: center
 #What about agricultural fires ?
 
 **Land cover data** 
-.pull-left[.pull-left[<video data-autoplay width="1000" controls autoplay muted>
+.pull-left[.pull-left[<video data-autoplay width="1000" controls autoplay loop muted>
   <source src="scripts/JDD_files/figure-html/FarEarth_compressed.mp4" type="video/mp4">
 </video>
 - Elapsed time between 2 date : 6, 12 or 24 hours
@@ -135,7 +135,7 @@ class: center
 - Harvested crop similar to burned area
 ]
 
-.pull-right[<video data-autoplay width="1000" controls autoplay muted>
+.pull-right[<video data-autoplay width="1000" controls autoplay loop muted>
   <source src="scripts/JDD_files/figure-html/VIIRS.mp4" type="video/mp4">
 </video>]]
 
@@ -150,7 +150,7 @@ class: center
 
 .pull-left[.pull-left[
 **Land cover data** 
-<video data-autoplay width="1000" controls autoplay muted>
+<video data-autoplay width="1000" controls autoplay loop muted>
   <source src="scripts/JDD_files/figure-html/FarErth_compressed.mp4" type="video/mp4">
 </video>
 - Elapsed time between 2 date : 6, 12 or 24 hours
@@ -164,7 +164,7 @@ class: center
 
 .pull-right[
 **Sattelite sensor**
-<video data-autoplay width="1000" controls autoplay muted>
+<video data-autoplay width="1000" controls autoplay loop muted>
   <source src="scripts/JDD_files/figure-html/VIIRS.mp4" type="video/mp4">
 </video>]]
 
