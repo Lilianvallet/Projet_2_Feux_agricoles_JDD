@@ -1,0 +1,55 @@
+---
+title: "Agricultural and pastoral Fire"
+subtitle: "Data exploration"
+author: "Lilian VALLET"
+date: "This presentation is directly linked to the database by Jean-Marc Ourcival, any modification or additional data would directly update this presentation"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["rutgers", "rutgers-fonts"]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+```{r, echo=FALSE, message=FALSE}
+library(tidyverse) # Easily Install and Load the 'Tidyverse'
+library(janitor) # Simple Tools for Examining and Cleaning Dirty Data
+library(readxl)
+library(lubridate) # Annotate Package Load Calls, [github::luisDVA/annotater] v0.1.3
+library(sf) # Simple Features for R
+library(tmap) # Thematic Maps
+library(leaflet) # Create Interactive Web Maps with the JavaScript 'Leaflet'
+library(tmaptools) # Thematic Map Tools
+library(snakecase) # Convert Strings into any Case
+library(ggridges)
+library(pilot)
+library(ggdist)
+library(inspectdf)
+library(ggforce)
+library(mapview)
+fire<-read_csv2("Agricultural_Pastoral_Fire.csv")
+```
+
+# Global dataset
+
+**`r nrow(fire)`** observations from *`r min(fire$annee)`* to *`r max(fire$annee)`*, with :
+-  **`r fire%>%filter(groups=="agri_fire")%>%nrow`** agricultural fires
+  - `r fire%>%filter(groups=="agri_fire")%>%nrow-(fire%>%filter(groups=="agri_fire"&!is.na(lieu_de_stockage))%>%nrow)` field fires
+  - `r fire%>%filter(groups=="agri_fire"&!is.na(lieu_de_stockage))%>%nrow` building fires
+-  **`r fire%>%filter(groups=="pasto_fire")%>%nrow`** pastoral fires
+
+5 types of variables :
+-  Date (day/month/year)
+-  Municipality of event (Name and INSEE code)
+-  Location of municipality (Latitude and Longitude)
+-  Vegetation type
+-  Data source
+
+Additional variables for agricultural fires :
+-  Burned area *for field fires*
+-  Storage place with estimated Dry mass burned *for building fires*
+
+---
+

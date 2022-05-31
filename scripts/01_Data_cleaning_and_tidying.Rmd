@@ -1,0 +1,304 @@
+---
+title: "01_Data_cleaning_and_tidying"
+output:
+  html_document: default
+editor_options:
+  chunk_output_type: console
+---
+
+# Initialization
+
+## 1. Setup layout parameters
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+## 2. Setup global options
+
+```{r Feux-agricoles-1, echo=FALSE}
+# options(java.parameters = "- Xmx1024m") #Allow to increase memory limit
+```
+
+## 3. Load required packages
+
+```{r Feux-agricoles-2, message=FALSE}
+library(raster)
+library(tidyverse) # Easily Install and Load the 'Tidyverse'
+library(janitor) # Simple Tools for Examining and Cleaning Dirty Data
+library(readxl) # Read Excel Files
+library(lubridate) # Make Dealing with Dates a Little Easier
+library(annotater) # Annotate Package Load Calls, [github::luisDVA/annotater] v0.1.3
+library(sf) # Simple Features for R
+library(tmap) # Thematic Maps
+library(leaflet) # Create Interactive Web Maps with the JavaScript 'Leaflet'
+library(tmaptools) # Thematic Map Tools
+library(snakecase) # Convert Strings into any Case
+library(ggridges) # Ridgeline Plots in 'ggplot2'
+library(pilot) # A minimal ggplot2 theme with an accessible discrete color
+library(ggdist) # Visualizations of Distributions and Uncertainty
+library(inspectdf) # Inspection, Comparison and Visualisation of Data Frames
+library(ggforce) # Accelerating 'ggplot2'
+library(report) # Automated Reporting of Results and Statistical Models
+library(mapview) # Interactive Viewing of Spatial Data in R
+library(caret)
+library(foreach)
+library(doParallel)
+```
+
+## 4. Get data
+
+3 data origins :
+
+-   JMO data on agriculural fires
+
+-   JMO data on pastoral fires
+
+-   ADMIN EXPRESS data on municipality code and location
+
+```{r Feux-agricoles-3, echo=FALSE,message=FALSE,warning=FALSE}
+agri_fire <- read_excel("data/Base feux agricoles 2001-2021-31122021.xlsx", sheet = 1)
+pasto_fire <- read_excel("data/Base feux agricoles 2001-2021-31122021.xlsx", sheet = 2)
+commune_gps <- read_csv2("data/commune_gps_tidied.csv")
+```
+
+# Data Cleaning and Tidying
+
+## 1. Data Cleaning
+
+-> Define the class (tibble), the row (no empty month) and the column of both agricultural and pastoral data
+
+-   Agricultural fire data
+
+```{r Feux-agricoles-5 , echo=FALSE}
+agri_fire <- as_tibble(agri_fire)
+agri_fire %>%
+  filter(!mois == "") %>%
+  dplyr::select(année:rmq) -> agri_fire
+```
+
+-   Pastoral fire data
+
+```{r Feux-agricoles-6 , echo=FALSE}
+pasto_fire <- as_tibble(pasto_fire)
+pasto_fire %>%
+  filter(!mois == "") %>%
+  dplyr::select(année:rmq) -> pasto_fire
+```
+
+## 2. Data Tidying
+
+For both data frame, :
+
+1\. replace column names by a more rigorous way : snake case = "surface (ha)" -> "surface_ha"
+
+2\. name columns where name has not been defined
+
+3\. remove row with unknown mistakes (miswritten values)
+
+4\. replace non consistent mistakes and certain values by NA
+
+5\. Set class of each column
+
+6\. Modify case of categorical values by snake case
+
+7\. Create a new date column
+
+### - Agricultural fire data
+
+```{r Feux-agricoles-7 , echo=FALSE}
+# Rename columns
+clean_names(agri_fire) -> agri_fire
+agri_fire %>%
+  rename(code_commune = `x4`) -> agri_fire
+
+# Filter miswritten rows or change its value
+agri_fire %>%
+  filter(is.na(surface_ha) | !surface_ha == ".0°4" & !surface_ha == "1,5") %>%
+  mutate(
+    surface_ha = na_if(surface_ha, "na"),
+    masse_tonne_matiere_seche = na_if(masse_tonne_matiere_seche, "na"),
+    type_vegetation = na_if(type_vegetation, "na"),
+    lieu_de_stockage = recode(lieu_de_stockage, "na" = "not_mentioned"),
+    lieu_de_stockage = na_if(lieu_de_stockage, "NA")
+  ) -> agri_fire
+
+# Set class of each column
+agri_fire %>%
+  mutate(
+    annee = as.integer(annee),
+    mois = as.integer(mois),
+    jour = as.integer(jour),
+    code_commune = as.character(code_commune),
+    commune = as.character(commune),
+    surface_ha = as.numeric(surface_ha),
+    type_vegetation = as.character(type_vegetation),
+    lieu_de_stockage = as.character(lieu_de_stockage),
+    masse_tonne_matiere_seche = as.numeric(masse_tonne_matiere_seche),
+    source = as.factor(source),
+    rmq = as.character(rmq)
+  ) -> agri_fire
+agri_fire %>%
+  mutate(
+    type_vegetation = iconv(type_vegetation, from = "UTF-8", to = "ASCII//TRANSLIT"),
+    type_vegetation = to_snake_case(type_vegetation),
+    type_vegetation = as.factor(type_vegetation)
+  ) -> agri_fire
+
+# Create new columns
+agri_fire %>%
+  mutate(
+    date = make_date(annee, mois, jour),
+    datemj = str_sub(date, -5),
+    dateym = str_sub(date, end = 7)
+  ) -> agri_fire
+
+# agri_fire%>%
+#   filter(surface_ha=="na")%>%
+#   count->na1
+# test%>%
+#   filter(is.na(surface_ha))%>%
+#   count->na2
+# na1==na2
+#
+# seqna1<-which(agri_fire$surface_ha=="na")
+# seqna2<-which(is.na(test$surface_ha))
+# tabcomp<-cbind(seqna1,seqna2)
+# tabcomp<-as_tibble(tabcomp)
+# tabcomp%>%
+#   mutate(diff=(seqna1-seqna2))->tabcomp
+# tabcomp%>%
+#   filter(diff!=0)
+
+# 370,1397,3225
+```
+
+### - Pastoral fire data
+
+```{r Feux-agricoles-8 , echo=FALSE}
+# Rename columns
+clean_names(pasto_fire) -> pasto_fire
+
+# Filter miswritten rows or change its value
+pasto_fire %>%
+  filter(!surface_ha == "> 100" & !surface_ha == "> 101" & !jour == "?" & !jour == "1'") %>%
+  mutate(
+    surface_ha = na_if(surface_ha, "NA"),
+    surface_ha = na_if(surface_ha, "na"),
+    type_vegetation = na_if(type_vegetation, "na")
+  ) -> pasto_fire
+
+# Set class of each column
+pasto_fire %>%
+  mutate(
+    annee = as.integer(annee),
+    mois = as.integer(mois),
+    jour = as.integer(jour),
+    code_commune = as.character(code_commune),
+    commune = as.character(commune),
+    surface_ha = as.numeric(surface_ha),
+    type_vegetation = as.factor(type_vegetation),
+    source = as.factor(source)
+  ) -> pasto_fire
+pasto_fire %>%
+  mutate(
+    type_vegetation = iconv(type_vegetation, from = "UTF-8", to = "ASCII//TRANSLIT"),
+    type_vegetation = to_snake_case(type_vegetation),
+    type_vegetation = as.factor(type_vegetation)
+  ) -> pasto_fire
+
+# Create new columns
+pasto_fire %>%
+  mutate(
+    date = make_date(annee, mois, jour),
+    datemj = str_sub(date, -5),
+    dateym = str_sub(date, end = 7)
+  ) -> pasto_fire
+
+# pasto_fire%>%
+#   filter(surface_ha=="na")%>%
+#   count->na1
+# test%>%
+#   filter(is.na(surface_ha))%>%
+#   count->na2
+# na1==na2
+#
+# seqna1<-which(pasto_fire$surface_ha=="na")
+# seqna2<-which(is.na(test$surface_ha))
+# tabcomp<-cbind(seqna1,seqna2)
+# tabcomp<-as_tibble(tabcomp)
+# tabcomp%>%
+#   mutate(diff=(seqna1-seqna2))->tabcomp
+# tabcomp%>%
+#   filter(diff!=0)
+
+# 370,1397,3225
+```
+
+### - Commune GPS data
+
+1\. change value of INSEE code of 4 digits
+
+2\. set classe of each column
+
+3\. separate location column into lat and long column
+
+```{r Feux-agricoles-9 , echo=FALSE}
+# Filter miswritten rows or change its value
+commune_gps %>%
+  mutate(code_insee = if_else(str_length(code_insee) == 4, paste0(0, code_insee), code_insee)) -> commune_gps
+
+# Set class of each column
+commune_gps %>%
+  mutate(code_insee = as.character(code_insee)) -> commune_gps
+
+# Create lon/lat columns
+commune_gps %>%
+  separate(geo_point_2d, c("lat", "lon"), sep = ",") %>%
+  mutate(
+    lon = as.numeric(lon),
+    lat = as.numeric(lat)
+  ) -> commune_gps
+
+# Create code_departement column
+commune_gps %>%
+  mutate(code_departement = str_sub(code_insee, end = -4)) -> commune_gps
+```
+
+## 3. Data merging
+
+-> Merge agricultural and pastoral data
+
+-> Add data of municipality
+
+```{r Feux-agricoles-10 ,echo=FALSE}
+fire_mix <- bind_rows("agri_fire" = agri_fire, "pasto_fire" = pasto_fire, .id = "groups")
+fire <- left_join(fire_mix, commune_gps, by = c("code_commune" = "code_insee"))
+fire %>%
+  filter(!is.na(lat)) -> fire
+fire %>%
+  mutate(groups = if_else(!is.na(lieu_de_stockage), "build_agri_fire", groups)) -> fire
+# fire%>%
+# filter(is.na(lat))%>%
+#   count(code_commune)->unavailable_loc
+```
+
+## 4. Creating other format files
+
+-> Create a sf file of the database
+
+```{r Feux-agricoles-11, echo=FALSE}
+fire_sf <- st_as_sf(fire,
+  coords = c("lon", "lat"),
+  crs = "+proj=longlat +datum=WGS84 +nodefs"
+)
+```
+
+# Export data
+
+```{r Feux-agricoles-14 ,echo=FALSE}
+write_csv2(fire, "data/Working_files/Agricultural_Pastoral_Fire_01.csv")
+st_write(fire_sf, "data/Working_files/Agricultural_Pastoral_Fire_sf_01.gpkg", append = FALSE)
+write_csv2(fire, "data/Working_files/Agricultural_Pastoral_Fire.csv")
+st_write(fire_sf, "data/Working_files/Agricultural_Pastoral_Fire_sf.gpkg", append = FALSE)
+```

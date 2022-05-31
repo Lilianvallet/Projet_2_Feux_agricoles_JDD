@@ -1,0 +1,180 @@
+---
+title: "PhD Day 2022"
+subtitle: "Agricultural fires in France : a first national overview from data mining"
+author: "Lilian VALLET"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["scripts/JDD_files/css/rutgers-tidyverse.css","scripts/JDD_files/css/rutgers-fonts_og.css"]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      beforeInit: "scripts/JDD_files/css/macro.js"
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.align = "center", 
+                      message = FALSE, 
+                      warning = FALSE, 
+                      paged.print = FALSE)
+
+
+```
+
+# Model study
+
+**Agroecosystem** : Ecosystem that has been modified by humans to use some of the organic matter it produces, usually for food.
+
+--
+
+![](scripts/JDD_files/figure-html/Agroecosystem_1.png)
+
+---
+
+# Model study
+
+**Agroecosystem** : Ecosystem that has been modified by humans to use some of the organic matter it produces, usually for food.
+
+![](scripts/JDD_files/figure-html/Agroecosystem_2.png)
+
+--
+
+-> Specific fire regime : Seasonality, Burned area, Fire behavior and Prescription 
+
+---
+class: center
+
+# Study area
+
+
+![:scale 65%](scripts/JDD_files/figure-html/Study_site_1.png)
+---
+class: center
+
+# Study area
+
+![:scale 65%](scripts/JDD_files/figure-html/Study_site_2.png)
+
+---
+# Land cover data
+.left-column[<video data-autoplay width="650" controls autoplay>
+  <source src="scripts/JDD_files/figure-html/LandCover_sattelite.mp4" type="video/mp4">
+</video>]
+.right-column[<video data-autoplay width="1000" controls autoplay>
+  <source src="scripts/JDD_files/figure-html/FarEarth_compressed.mp4" type="video/mp4">
+</video>]
+
+---
+# Sattelite sensor
+
+.left-column[<video data-autoplay width="650" controls autoplay>
+  <source src="scripts/JDD_files/figure-html/MODIS_compressed.mp4" type="video/mp4">
+</video>]
+
+.right-column[<video data-autoplay width="650" controls autoplay>
+  <source src="scripts/JDD_files/figure-html/VIIRS.mp4" type="video/mp4">
+</video>]
+---
+# Firefighter alert
+
+![](output_data/Merged_Fire_Database_origin.png)
+---
+#What about agricultural fires ?
+
+**Land cover data** 
+.pull-left[.pull-left[<video data-autoplay width="1000" controls autoplay>
+  <source src="scripts/JDD_files/figure-html/FarEarth_compressed.mp4" type="video/mp4">
+</video>
+- Elapsed time between 2 date : 6, 12 or 24 hours
+
+
+- Color differences pre and post-fire
+
+
+- Harvested crop similar to burned area
+]]
+
+---
+#What about agricultural fires ?
+
+**Land cover data** 
+.pull-left[.pull-left[<video data-autoplay width="1000" controls autoplay>
+  <source src="scripts/JDD_files/figure-html/FarEarth_compressed.mp4" type="video/mp4">
+</video>
+- Elapsed time between 2 date : 6, 12 or 24 hours
+
+
+- Color differences pre and post-fire
+
+
+- Harvested crop similar to burned area
+]
+.pull-right[<video data-autoplay width="1000" controls autoplay>
+  <source src="scripts/JDD_files/figure-html/VIIRS.mp4" type="video/mp4">
+</video>]
+]
+
+---
+#What about agricultural fires ?
+
+**Land cover data** 
+.pull-left[.pull-left[<video data-autoplay width="1000" controls autoplay>
+  <source src="scripts/JDD_files/figure-html/FarEarth_compressed.mp4" type="video/mp4">
+</video>
+- Elapsed time between 2 date : 6, 12 or 24 hours
+
+
+- Color differences pre and post-fire
+
+
+- Harvested crop similar to burned area
+]
+
+.pull-right[<video data-autoplay width="1000" controls autoplay>
+  <source src="scripts/JDD_files/figure-html/VIIRS.mp4" type="video/mp4">
+</video>]]
+
+.pull-right[
+.pull-left[
+![](/output_data/Merged_Fire_Database_origin.png)
+]]
+
+---
+#What about agricultural fires ?
+
+
+.pull-left[.pull-left[
+**Land cover data** 
+<video data-autoplay width="1000" controls autoplay>
+  <source src="scripts/JDD_files/figure-html/FarErth_compressed.mp4" type="video/mp4">
+</video>
+- Elapsed time between 2 date : 6, 12 or 24 hours
+
+
+- Color differences pre and post-fire
+
+
+- Harvested crop similar to burned area
+]
+
+.pull-right[
+**Sattelite sensor**
+<video data-autoplay width="1000" controls autoplay>
+  <source src="scripts/JDD_files/figure-html/VIIRS.mp4" type="video/mp4">
+</video>]]
+
+.pull-right[
+**Firefighter alert**
+.pull-left[
+![](output_data/Merged_Fire_Database_origin.png)
+]
+
+.pull-right[
+**Data mining !**
+]]
+

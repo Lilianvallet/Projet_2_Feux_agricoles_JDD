@@ -1,0 +1,26 @@
+JMO - feux agricoles
+2005 - 7 - 31 - commune Dareizé -> surface_ha : .0°4 ?
+2010 - 7 - 10 - commune PAUILHAC -> surface_ha non reconnue -> à modifier dans fichier original
+2015 - 7 - 3 - commune Cruviers-Lascours - > surface_ha na avec espace -> à modifier dans fichier original
+
+JMO - feux pastoraux
+2015	12	27	64271	Iholdy -> surface_ha : NA 
+2005	3	19	64175	Castet -> surface_ha : >100
+2005	3	19	64353	LOUVIE-JUZON -> surface_ha : >101
+2005	5	?	42022	Bonson
+2014	10	1'	2B049	Calenzana
+
+GPS 
+Plusieurs points avec "," au lieu de "."
+Code_insee non unique (Métropole)
+
+JMO - code insee non attribué
+1 79224        le Puy-Saint-Bonnet (Cholet)  		49099       
+2 58091        Cosne-Cours-sur-Loire (Cours-lès-Cosne 	58086
+3 14631        Vire (Saint-Germain-de-Tallevende     	14762
+4 14631        Vire (Saint-Martin-de-Tallevende         14762
+5 79224        Cholet (Puy-Saint-Bonnet              	49099
+6 51575        Vert-Toulon                           	51611
+7 79041        Borcq sur Airvault        Airvault: 	79005           
+8 79237        Saint-Aubin-de-Baubigné         Mauléon: 79079   
+9 64497        Sainte-Suzanne (Orthez)   		64430

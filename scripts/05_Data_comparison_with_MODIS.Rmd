@@ -1,0 +1,166 @@
+---
+title: "05_Data_comparison_with_MODIS"
+output:
+  html_document: default
+editor_options:
+  chunk_output_type: console
+---
+
+# Initialization
+
+## 1. Setup layout parameters
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+## 2. Setup global options
+
+```{r Feux-agricoles-1, echo=FALSE}
+# options(java.parameters = "- Xmx1024m") #Allow to increase memory limit
+```
+
+## 3. Load required packages
+
+```{r Feux-agricoles-2, message=FALSE}
+library(raster)
+library(tidyverse) # Easily Install and Load the 'Tidyverse'
+library(janitor) # Simple Tools for Examining and Cleaning Dirty Data
+library(readxl) # Read Excel Files
+library(lubridate) # Make Dealing with Dates a Little Easier
+library(annotater) # Annotate Package Load Calls, [github::luisDVA/annotater] v0.1.3
+library(sf) # Simple Features for R
+library(tmap) # Thematic Maps
+library(leaflet) # Create Interactive Web Maps with the JavaScript 'Leaflet'
+library(tmaptools) # Thematic Map Tools
+library(snakecase) # Convert Strings into any Case
+library(ggridges) # Ridgeline Plots in 'ggplot2'
+library(pilot) # A minimal ggplot2 theme with an accessible discrete color
+library(ggdist) # Visualizations of Distributions and Uncertainty
+library(inspectdf) # Inspection, Comparison and Visualisation of Data Frames
+library(ggforce) # Accelerating 'ggplot2'
+library(report) # Automated Reporting of Results and Statistical Models
+library(mapview) # Interactive Viewing of Spatial Data in R
+library(caret)
+library(foreach)
+library(doParallel)
+```
+
+## 4. Get data
+
+```{r}
+# Agricultural and Pastoral Fire data ------------------------------------------
+fire<-read_csv2("data/Working_files/Agricultural_Pastoral_Fire.csv")
+fire_sf<-st_read("data/Working_files/Agricultural_Pastoral_Fire_sf.gpkg")
+
+#MODIS and VIIRS data
+MODIS<-st_read("D:/Fire/FIRMS/MODIS/fire_archive_M-C61_268082.shp")
+VIIRS_NPP<-st_read("D:/Fire/FIRMS/VIIRS/S-NPP/fire_archive_SV-C2_268084.shp")
+VIIRS_NOAA<-st_read("D:/Fire/FIRMS/VIIRS/NOAA_20/fire_nrt_J1V-C2_268083.shp")
+
+DEP<-st_read("data/contour-des-departements.geojson")
+```
+
+# Data Cleaning and Tidying
+
+## 1. Data Cleaning
+
+```{r}
+MODIS%>%
+  filter(!TYPE==3&!TYPE==1,
+         CONFIDENCE>20)->MODIS
+VIIRS_NPP%>%
+  filter(!TYPE==3&!TYPE==1,
+         !CONFIDENCE=="l")->VIIRS_NPP
+VIIRS_NOAA%>%
+  filter(!CONFIDENCE=="l")->VIIRS_NOAA
+
+#
+# length(MODIS$ACQ_DATE)/as.integer(max(MODIS$ACQ_DATE)-min(MODIS$ACQ_DATE))
+# length(VIIRS_NPP_b$ACQ_DATE)/as.integer(max(VIIRS_NPP_b$ACQ_DATE)-min(VIIRS_NPP_b$ACQ_DATE))
+# length(VIIRS_NOAA$ACQ_DATE)/as.integer(max(VIIRS_NOAA$ACQ_DATE)-min(VIIRS_NOAA$ACQ_DATE))
+
+ DEP%>%
+   rename("code_departement"="code")->DEP
+# fire%>%
+#   select(!geom)->fire
+# DEP_df<-as_tibble(DEP)
+# fire_dep<-left_join(fire,DEP)
+
+
+MODIS%>%
+  st_join(DEP)%>%
+  filter(!is.na(code_departement))->MODIS
+VIIRS_NPP%>%
+  st_join(DEP)%>%
+  filter(!is.na(code_departement))->VIIRS_NPP
+VIIRS_NOAA%>%
+  st_join(DEP)%>%
+  filter(!is.na(code_departement))->VIIRS_NOAA
+
+MODIS%>%
+  filter(year(ACQ_DATE)==2020)%>%
+  ggplot()+
+  aes(color=code)+
+  geom_sf()
+fire_sf%>%
+  filter(annee==2020)%>%
+  ggplot()+
+  aes(color=code_departement)+
+  geom_sf()
+
+MODIS%>%
+  group_by(code)%>%
+  count(ACQ_DATE)
+fire%>%
+  group_by(code_departement)%>%
+  count()%>%
+  left_join(DEP)%>%
+  st_as_sf()%>%
+    ggplot()+
+  aes(fill=n)+
+  geom_sf()+
+  theme_pilot()+
+  scale_fill_viridis_c(option = "D")
+MODIS%>%
+  as_tibble()%>%
+  group_by(code_departement)%>%
+  count()%>%
+  left_join(DEP)%>%
+  st_as_sf()%>%
+    ggplot()+
+  aes(fill=n)+
+  geom_sf()+
+  theme_pilot()+
+  scale_fill_viridis_c(option = "D")
+<<<<<<< HEAD
+for (yy in 2012:2021){
+VIIRS_NPP%>%
+  filter(year(ACQ_DATE)==yy)%>%
+  ggplot()+
+  borders("france")+
+  aes(col=BRIGHTNESS)+
+  geom_sf()+
+  #scale_color_viridis_c("BRIGTHNESS",option="plasma",direction = -1,midpoint=320)+
+  scico::scale_color_scico(palette = "lajolla",midpoint = 310)+
+  labs(title = yy)+
+  theme(plot.title = element_text(size=102))+
+  theme_minimal()->VIIRS_plot
+plot_name<-paste0("VIIRS_",yy,".png")
+print(paste("Saving",paste0("/scripts/JDD_files/figure-html/",plot_name)))
+ggsave(plot = VIIRS_plot,paste0("scripts/JDD_files/figure-html/",plot_name))
+  }
+=======
+
+>>>>>>> 14b705dfa3d489984c66a906605a256d050d9357
+```
+
+
+# Export data
+
+```{r Feux-agricoles-14 ,echo=FALSE}
+write_csv2(fire, "data/Working_files/Agricultural_Pastoral_Fire_05.csv")
+st_write(fire_sf, "data/Working_files/Agricultural_Pastoral_Fire_sf_05.gpkg", append = FALSE)
+write_csv2(fire, "data/Working_files/Agricultural_Pastoral_Fire.csv")
+st_write(fire_sf, "data/Working_files/Agricultural_Pastoral_Fire_sf.gpkg", append = FALSE)
+```
