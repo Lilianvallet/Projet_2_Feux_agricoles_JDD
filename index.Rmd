@@ -141,7 +141,7 @@ class: center
 
 .pull-right[
 .pull-left[
-![](/output_data/Merged_Fire_Database_origin.png)
+![](output_data/Merged_Fire_Database_origin.png)
 ]]
 
 ---
