@@ -84,11 +84,16 @@ class: center
 
 ![](output_data/Merged_Fire_Database_origin.png)
 ---
+
+
+
 #What about agricultural fires ?
 
+
+.pull-left[.pull-left[
 **Land cover data** 
-.pull-left[.pull-left[<video data-autoplay width="1000" controls autoplay loop muted>
-  <source src="scripts/JDD_files/figure-html/FarEarth_compressed.mp4" type="video/mp4">
+<video data-autoplay width="1000" controls autoplay loop muted>
+  <source src="scripts/JDD_files/figure-html/FarErth_compressed.mp4" type="video/mp4">
 </video>
 - Elapsed time between 2 date : 6, 12 or 24 hours
 
@@ -102,9 +107,11 @@ class: center
 ---
 #What about agricultural fires ?
 
+
+.pull-left[.pull-left[
 **Land cover data** 
-.pull-left[.pull-left[<video data-autoplay width="1000" controls autoplay loop muted>
-  <source src="scripts/JDD_files/figure-html/FarEarth_compressed.mp4" type="video/mp4">
+<video data-autoplay width="1000" controls autoplay loop muted>
+  <source src="scripts/JDD_files/figure-html/FarErth_compressed.mp4" type="video/mp4">
 </video>
 - Elapsed time between 2 date : 6, 12 or 24 hours
 
@@ -114,17 +121,29 @@ class: center
 
 - Harvested crop similar to burned area
 ]
-.pull-right[<video data-autoplay width="1000" controls autoplay loop muted>
+
+.pull-right[
+**Sattelite sensor**
+<video data-autoplay width="1000" controls autoplay loop muted>
   <source src="scripts/JDD_files/figure-html/VIIRS.mp4" type="video/mp4">
-</video>]
-]
+</video>
+- 1 point = several fires
+
+
+- 1 fire = several points
+
+
+- Difference of accuracy between sattelites
+]]
 
 ---
 #What about agricultural fires ?
 
+
+.pull-left[.pull-left[
 **Land cover data** 
-.pull-left[.pull-left[<video data-autoplay width="1000" controls autoplay loop muted>
-  <source src="scripts/JDD_files/figure-html/FarEarth_compressed.mp4" type="video/mp4">
+<video data-autoplay width="1000" controls autoplay loop muted>
+  <source src="scripts/JDD_files/figure-html/FarErth_compressed.mp4" type="video/mp4">
 </video>
 - Elapsed time between 2 date : 6, 12 or 24 hours
 
@@ -135,13 +154,27 @@ class: center
 - Harvested crop similar to burned area
 ]
 
-.pull-right[<video data-autoplay width="1000" controls autoplay loop muted>
+.pull-right[
+**Sattelite sensor**
+<video data-autoplay width="1000" controls autoplay loop muted>
   <source src="scripts/JDD_files/figure-html/VIIRS.mp4" type="video/mp4">
-</video>]]
+</video>
+- 1 point = several fires
+
+
+- 1 fire = several points
+
+
+- Difference of accuracy between sattelites
+]]
 
 .pull-right[
+**Firefighter alert**
 .pull-left[
 ![](output_data/Merged_Fire_Database_origin.png)
+- Any kind of fire
+
+- Poor estimation of Burned area
 ]]
 
 ---
@@ -214,8 +247,16 @@ Additional variables for agricultural fires :
 - Burned area for field fires
 - Storage place with estimated Dry mass burned for building fires
 
---- 
-# Spatial overview
-![:scale 65%](output_data\BA_facet.png)
 
 ---
+class: center
+# Spatial overview
+![:scale 55%](output_data\BA_facet.png)
+
+---
+# Temporal dynamics and Seasonality
+![:scale 55%](output_data\MeanNbFire_Month_barplot.png)
+
+---
+# Temporal dynamics and Seasonality
+![:scale 55%](output_data\NbFire_Date_density.png)
