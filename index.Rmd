@@ -296,4 +296,4 @@ Argicultural data from AGRESTE (national database)
 class: title-slide-final, 
 
 # Thank you for your attention and enjoy the day!
-![](scripts/JDD_files/figure-html/01.png)
+<img src="scripts/JDD_files/figure-html/01.png" width=350>
