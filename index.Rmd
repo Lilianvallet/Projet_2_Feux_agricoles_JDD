@@ -223,6 +223,12 @@ class: center
 **Data mining !**
 ***
 
+Keywords resarch in non-scientific litterature :
+- "feu" + "champs"
+- "feu" + "pature"
+- "ecobuage"
+
+
 ]]
 
 ---
@@ -267,7 +273,7 @@ class: center
 ![:scale 95%](output_data\BA_facet.png)]
 .pull-right[
 <video data-autoplay width="650" controls autoplay loop muted>
-  <source src="scripts/JDD_files/figure-html/MODIS_sattelite_compressed.mp4" type="video/mp4">
+  <source src="scripts/JDD_files/figure-html/VIIRS.mp4" type="video/mp4">
 </video>
 ]
 
